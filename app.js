@@ -24,13 +24,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));//WHERE STATIC RESOURCES R KEPT
 
-//app.use(passport.initialize());
+
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: { secure: true }
 }))
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', index);
 
 
