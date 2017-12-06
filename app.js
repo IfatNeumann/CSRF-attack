@@ -1,14 +1,11 @@
-const express = require('express');
-const passport = require('passport');
-const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
+var express = require('express')
+var passport = require('passport');
+var session = require('express-session');
 
-const app = express();
-app.use(session({
-    store: new RedisStore({ url: config.redisStore.url }),
-    secret: config.redisStore.secret,
-    resave: false,
-    saveUninitialized: false
-}));
+
+var app = express();
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+module.exports = app;
