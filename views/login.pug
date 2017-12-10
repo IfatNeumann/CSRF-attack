@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+    form(method="GET" action="/login")
+        .form-group
+            label UserName
+            input.form-control(type='text', aria-describedby='emailHelp',name='username' placeholder='username')
+    .form-group
+        label(for='exampleInputPassword1') Password
+        input#exampleInputPassword1.form-control(type='password', placeholder='Password')
+    .form-group
+        button.btn.btn-primary(type='submit') Submit

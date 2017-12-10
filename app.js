@@ -1,5 +1,6 @@
 var express = require('express')
 var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 var path = require('path');
 var logger = require('morgan');
@@ -28,14 +29,23 @@ app.use(express.static(path.join(__dirname, 'public')));//WHERE STATIC RESOURCES
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: false,
-    cookie: { secure: true }
+    saveUninitialized: true, ////need to change to false so session will b created just if we log
+  //  cookie: { secure: true }
 }))
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
 app.use('/', index);
 
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+
+            return done(null, user);
+
+    }
+));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
