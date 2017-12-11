@@ -15,9 +15,11 @@ router.get('/register', function(req, res, next) {
 
 });
 
-router.post('login',passport.authenticate('local',{
+router.post('/login',passport.authenticate('local',{
+    successRedirect: '/bank',
+    failureRedirect: '/login' }));
 
-}))
+
 router.get('/test',authenticationMiddleware(), function (req,res,next) {
     res.render('error',{title:'ffff'})
 })
