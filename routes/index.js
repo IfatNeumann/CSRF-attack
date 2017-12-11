@@ -1,57 +1,46 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-//var valider= require('express-validator')
+var Tokens = require('csrf');
 /* GET home page. */
+var user={
+    id: 1,
+    user: 'Noa',
+    password: 1321
+};
 router.get('/', function(req, res, next) {
+
   res.render('login', { title: 'Registration' });
 
 });
 
-
 router.post('/login', function (req, res, next) {
-    req.login(req.body.username, function (err) {
-        res.redirect('bank');
-    });
-});
-/*
-router.post('/login', function (req, res, next) {
-    var token = Tokens();
-    var username = req.body.userName;
-    var password = req.body.password;
-    var secret = token.secretSync();
-    var csrfToken = token.create(secret);
-    if (username == "Avi" && password == "1234") {
-        user = {id: 1, username: "Avi", csrft: csrfToken};
+    if((req.body.userName==user.user)&&(req.body.password2==user.password)){
+        user1=user
         req.login(user, function (err) {
             res.redirect('bank');
         });
-
-
     }
     else {
-        res.send("error");
+        res.redirect('error')
     }
-
-    //res.render('login');
 });
-*/
-var users=[]
+
+
 
 router.get('/register',function (req,res,next) {
     res.render('index')
 })
-router.post('/register',function (req,res,next) {
-    var user={
-        user: req.body.username,
-        password: req.body.password2,
-        email: req.body.email
-    }
-    users.push(user);
-    res.render('login',{title: 'title'})
-})
 
 
+
+
+// bank
+router.get('/bank', function (req, res, next) {
+    console.log(req.user);
+    console.log(req.isAuthenticated());
+    res.render('bank');
+});
 
 router.get('/bank', function (req,res,next) {
     res.render('bank',{title:'ffff'})
