@@ -3,12 +3,10 @@ extends layout
 block content
     h1= title
     p Welcome to #{title}
-    form(method="post" action="/login")
-        .form-group
-            label UserName
-            input.form-control(type='text', aria-describedby='emailHelp',name='username' placeholder='username')
-        .form-group
-            label(for='exampleInputPassword1') Password
-            input#exampleInputPassword1.form-control(type='password', placeholder='Password')
-        .form-group
-            button.btn.btn-primary(type='submit') Submit
+    form(method='POST' action='/login' enctype="plain/text")
+        p user name:
+        input( type='textbox' name='userName')
+        p password:
+        input(type='password' name='password')
+        br
+        input(type='submit' value='Submit comment')

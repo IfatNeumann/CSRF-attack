@@ -7,13 +7,40 @@ router.get('/', function(req, res, next) {
   res.render('login', { title: 'Registration' });
 
 });
-router.get('/login', function(req, res, next) {
-    res.render('bank', { title: 'User' });
 
+
+router.post('/login', function (req, res, next) {
+    req.login(req.body.username, function (err) {
+        res.redirect('bank');
+    });
 });
+/*
+router.post('/login', function (req, res, next) {
+    var token = Tokens();
+    var username = req.body.userName;
+    var password = req.body.password;
+    var secret = token.secretSync();
+    var csrfToken = token.create(secret);
+    if (username == "Avi" && password == "1234") {
+        user = {id: 1, username: "Avi", csrft: csrfToken};
+        req.login(user, function (err) {
+            res.redirect('bank');
+        });
 
 
+    }
+    else {
+        res.send("error");
+    }
+
+    //res.render('login');
+});
+*/
 var users=[]
+
+router.get('/register',function (req,res,next) {
+    res.render('index')
+})
 router.post('/register',function (req,res,next) {
     var user={
         user: req.body.username,
@@ -23,34 +50,34 @@ router.post('/register',function (req,res,next) {
     users.push(user);
     res.render('login',{title: 'title'})
 })
-router.post('/login',
-    passport.authenticate('local', { failureRedirect: '/login' }),
-    function(req, res) {
-        res.redirect('/bank');
-    });
 
 
-router.get('/bank',authenticationMiddleware(), function (req,res,next) {
+
+router.get('/bank', function (req,res,next) {
     res.render('bank',{title:'ffff'})
 })
-function authenticationMiddleware () {
-    return function (req, res, next) {
+function authenticationMiddleware (req, res, next) {
         if (req.isAuthenticated()) {
             return next()
         }
         res.redirect('/')
-    }
+
 }
 
-passport.serializeUser(function(user, cb) {
-    cb(null, user.id);
+
+passport.serializeUser(function (user, done) {
+    done(null, user.id);
 });
 
-passport.deserializeUser(function(id, cb) {
-    db.users.findById(id, function (err, user) {
-        if (err) { return cb(err); }
-        cb(null, user);
-    });
+passport.deserializeUser(function (id, done) {
+    var usr;
+    if (typeof user !== 'undefined' && user) {
+
+        if (id == user.id)
+            usr = user;
+    }
+    done(null, usr);
+
 });
 module.exports = router;
 

@@ -1,5 +1,6 @@
 var express = require('express')
 var passport = require('passport');
+var favicon = require('serve-favicon');
 var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 var path = require('path');
@@ -39,13 +40,13 @@ app.use(passport.session());
 
 app.use('/', index);
 
-passport.use(new LocalStrategy(
+passport.use('local-login' ,new LocalStrategy(
     function(username, password, cb) {
         db.users.findByUsername(username, function(err, user) {
             if (err) { return cb(err); }
             if (!user) { return cb(null, false); }
             if (user.password != password) { return cb(null, false); }
-            return cb(null, user);
+            return cb(null, "DSDD");
         });
     }));
 
