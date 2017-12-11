@@ -2,7 +2,18 @@ doctype html
 html
   head
     title= title
-    //link(rel='stylesheet', href='/stylesheets/style.css')
+    .header.clearfix
+      nav
+        ul.nav.nav-pills.float-right
+          li.nav-item
+            a.nav-link.active(href='#')
+              | Home
+              span.sr-only (current)
+          li.nav-item
+            a.nav-link(href='/login') login
+          li.nav-item
+            a.nav-link(href='/register') Register
+      h3.text-muted Bank
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous")
   body
     block content

@@ -3,18 +3,18 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  form(method="GET" action="/register")
+  form(method="post" action="/register")
       .form-group
           label(for='exampleInputEmail1') UserName
           input.form-control(type='text', aria-describedby='emailHelp',name='username' placeholder='username')
 
-    .form-group
+      .form-group
         label(for='exampleInputEmail1') Email address
-        input#exampleInputEmail1.form-control(type='email', aria-describedby='emailHelp', placeholder='Enter email')
+        input#exampleInputEmail1.form-control(type='email', name='email' ,aria-describedby='emailHelp', placeholder='Enter email')
         br
         small#emailHelp.form-text.text-muted We'll never share your email with anyone else.
-    .form-group
+      .form-group
         label(for='exampleInputPassword1') Password
-        input#exampleInputPassword1.form-control(type='password', placeholder='Password')
-    .form-group
+        input#exampleInputPassword1.form-control(type='password',name='password2', placeholder='Password')
+      .form-group
         button.btn.btn-primary(type='submit') Submit
