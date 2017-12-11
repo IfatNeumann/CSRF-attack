@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var Tokens = require('csrf');
 /* GET home page. */
 var user={
     id: 1,
@@ -37,6 +36,10 @@ router.get('/bank',authenticationMiddleware(), function (req, res, next) {
     res.render('bank');
 });
 
+// transfer
+router.post('/transfer',function (req,res,next) {
+    console.log("transfered");
+});
 
 function authenticationMiddleware() {
 
