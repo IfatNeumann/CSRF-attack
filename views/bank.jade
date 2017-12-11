@@ -2,15 +2,14 @@ extends layout
 
 block content
     p hey #{title}
-    form(method="GET" action="/register")
+    form(method="POST" action="/transfer")
         .form-group
-            label(for='exampleInputEmail1') Transfer from
-            input.form-control(type='text', aria-describedby='emailHelp',name='username' placeholder='Enter your account number')
+            label(for='to') amount
+            input.form-control(type='text', name='username' placeholder='Enter the amount to transfer')
 
-    .form-group
-        label(for='exampleInputEmail1')  To
-        input#exampleInputEmail1.form-control(type='email', aria-describedby='emailHelp', placeholder='Enter the account to transfer to')
-        br
-        small#emailHelp.form-text.text-muted
-    .form-group
-        button.btn.btn-primary(type='submit') Submit
+        .form-group
+            label(for='to')  To
+            input#to.form-control(type='text', placeholder='Enter the account to transfer to')
+            br
+        .form-group
+            button.btn.btn-primary(type='submit') Submit
