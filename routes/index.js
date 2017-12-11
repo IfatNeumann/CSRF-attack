@@ -17,8 +17,9 @@ router.post('/login', function (req, res, next) {
     if((req.body.userName==user.user)&&(req.body.password2==user.password)){
         user1=user
         req.login(user, function (err) {
+            res.redirect('bank');
         });
-    } res.redirect('bank');
+    } else {res.render('login')}
 });
 
 
@@ -37,9 +38,9 @@ router.get('/bank',authenticationMiddleware(), function (req, res, next) {
 });
 
 // transfer
-router.post('/transfer',function (req,res,next) {
-    console.log("transfered");
-    res.render('login')
+router.post('/transfer',authenticationMiddleware(), function (req,res,next) {
+    console.log(req.body.amount+" "+req.body.des);
+    res.render('bank')
 });
 
 function authenticationMiddleware() {
