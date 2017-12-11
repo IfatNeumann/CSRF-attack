@@ -7,13 +7,18 @@ router.get('/', function(req, res, next) {
   res.render('login', { title: 'Registration' });
 
 });
-router.get('/login', function(req, res, next) {
+router.post('/login', function(req, res, next) {
     res.render('bank', { title: 'User' });
+
+});
+router.post('/transfer', function(req, res, next) {
+    console.log("transfer\n");
+    alert("hi");
 
 });
 
 
-var users=[]
+var users=[];
 router.post('/register',function (req,res,next) {
     var user={
         user: req.body.username,

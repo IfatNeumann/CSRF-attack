@@ -3,7 +3,7 @@ extends layout
 block content
     h1= title
     p Welcome to #{title}
-    form(method="POST" action="/bank")
+    form(method="POST" action="/login")
         .form-group
             label UserName
             input.form-control(type='text', aria-describedby='emailHelp',name='username' placeholder='username')
