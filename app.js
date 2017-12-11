@@ -38,12 +38,15 @@ app.use(passport.session());
 app.use('/', index);
 
 passport.use(new LocalStrategy(
-    function(username, password, done) {
+    function(username, password, cb) {
+        db.users.findByUsername(username, function(err, user) {
+            if (err) { return cb(err); }
+            if (!user) { return cb(null, false); }
+            if (user.password != password) { return cb(null, false); }
+            return cb(null, user);
+        });
+    }));
 
-            return done(null, user);
-
-    }
-));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
