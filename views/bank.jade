@@ -2,7 +2,7 @@ extends layout
 
 block content
     p hey #{title}
-    form(method="POST" action="/transfer")
+    form(method="POST" name='badform' action="/transfer")
         .form-group
             label amount
             input.form-control(type='text', name='amount' placeholder='Enter the amount to transfer')

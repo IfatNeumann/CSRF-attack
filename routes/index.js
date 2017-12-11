@@ -39,6 +39,7 @@ router.get('/bank',authenticationMiddleware(), function (req, res, next) {
 // transfer
 router.post('/transfer',function (req,res,next) {
     console.log("transfered");
+    res.render('login')
 });
 
 function authenticationMiddleware() {
