@@ -2,6 +2,7 @@ extends layout
 
 block content
     p hey #{title}
+    p without token
     form(method="POST" name='contactForm' action="/transfer")
         .form-group
             label amount
@@ -12,5 +13,20 @@ block content
             br
         .form-group
             button.btn.btn-primary(type='submit' onsubmit='return false' onclick="saveTran") Submit
+
+    p with token
+    form(method="POST" name='contactForm' action="/tokenTransfer")
+        .form-group
+            label amount
+            input.form-control(type='text', name='amount' placeholder='Enter the amount to transfer')
+        .form-group
+            label  dest
+            input#dest.form-control(type='text', name='dest' placeholder='Enter the account to transfer to')
+            br
+        .form-group
+            input.form-control(type='hidden', name='token' value='ifat')
+        .form-group
+            button.btn.btn-primary(type='submit' onsubmit='return false' onclick="saveTran") Submit
+
 
 

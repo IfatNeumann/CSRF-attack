@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var tokenStrategy = require('passport-token').Strategy;
 /* GET home page. */
 var user={
     id: 1,
@@ -15,7 +16,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/login', function (req, res, next) {
     if((req.body.userName==user.user)&&(req.body.password2==user.password)){
-        user1=user
+        user1=user;
         req.login(user, function (err) {
             res.redirect('bank');
         });
@@ -39,7 +40,14 @@ router.get('/bank',authenticationMiddleware(), function (req, res, next) {
 
 // transfer
 router.post('/transfer',authenticationMiddleware(), function (req,res,next) {
-    console.log(req.body.amount+" "+req.body.des);
+    console.log(req.body.amount+" NIS to "+req.body.dest);
+    res.render('bank')
+});
+
+// transfer
+router.post('/tokenTransfer',authenticationMiddlewareToken(), function (req,res,next) {
+    console.log(req.body.amount+" NIS to "+req.body.dest);
+    console.log("token: "+req.body.token);
     res.render('bank')
 });
 
@@ -49,6 +57,18 @@ function authenticationMiddleware() {
         console.log(req.user);
         console.log(req.isAuthenticated());
         if (req.isAuthenticated()) {
+            return next()
+        }
+        res.redirect('/')
+    }
+
+}
+function authenticationMiddlewareToken() {
+
+    return function (req, res, next) {
+        console.log(req.user);
+        console.log(req.isAuthenticated());
+        if (req.isAuthenticated()&&req.body.token=='ifat') {
             return next()
         }
         res.redirect('/')
@@ -73,4 +93,3 @@ passport.deserializeUser(function (id, done) {
 });
 
 module.exports = router;
-
