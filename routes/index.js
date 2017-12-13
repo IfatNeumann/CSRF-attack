@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var tokenStrategy = require('passport-token').Strategy;
+
+//var Tokens = require('csrf')
 /* GET home page. */
 var user={
     id: 1,
@@ -15,8 +16,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
+  // var token=Tokens();
+    //var secret = token.secretSync();
+    //var csrfToken = token.create(secret);
+    //user['se']=csrfToken;
     if((req.body.userName==user.user)&&(req.body.password2==user.password)){
-        user1=user;
         req.login(user, function (err) {
             res.redirect('bank');
         });
@@ -34,41 +38,31 @@ router.get('/register',function (req,res,next) {
 
 // bank
 router.get('/bank',authenticationMiddleware(), function (req, res, next) {
-
     res.render('bank');
 });
 
 // transfer
-router.post('/transfer',authenticationMiddleware(), function (req,res,next) {
+router.post('/transfer', authenticationMiddleware(),function (req,res,next) {
     console.log(req.body.amount+" NIS to "+req.body.dest);
     res.render('bank')
 });
-
 // transfer
-router.post('/tokenTransfer',authenticationMiddlewareToken(), function (req,res,next) {
-    console.log(req.body.amount+" NIS to "+req.body.dest);
-    console.log("token: "+req.body.token);
-    res.render('bank')
+router.post('/tokenTransfer',authenticationMiddleware(), function (req,res,next) {
+    if(req.user.se==req.body._csrf){
+        console.log(req.body.amount+" NIS to "+req.body.dest);
+        //console.log("token: "+req.body._csrf);
+        res.render('bank')
+    }
+    else {
+        redirect('/')
+    }
 });
 
 function authenticationMiddleware() {
-
     return function (req, res, next) {
         console.log(req.user);
         console.log(req.isAuthenticated());
         if (req.isAuthenticated()) {
-            return next()
-        }
-        res.redirect('/')
-    }
-
-}
-function authenticationMiddlewareToken() {
-
-    return function (req, res, next) {
-        console.log(req.user);
-        console.log(req.isAuthenticated());
-        if (req.isAuthenticated()&&req.body.token=='ifat') {
             return next()
         }
         res.redirect('/')
