@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 
-//var Tokens = require('csrf')
+var Tokens = require('csrf')
 /* GET home page. */
 var user={
     id: 1,
@@ -16,13 +16,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
-  // var token=Tokens();
-    //var secret = token.secretSync();
-    //var csrfToken = token.create(secret);
-    //user['se']=csrfToken;
+   var token=Tokens();
+    var secret = token.secretSync();
+    var csrfToken = token.create(secret);
+    user['se']=csrfToken;
     if((req.body.userName==user.user)&&(req.body.password2==user.password)){
         req.login(user, function (err) {
-            res.redirect('bank');
+            res.render('bank',{csrfToken: csrfToken});
         });
     } else {res.render('login')}
 });
@@ -49,12 +49,12 @@ router.post('/transfer', authenticationMiddleware(),function (req,res,next) {
 // transfer
 router.post('/tokenTransfer',authenticationMiddleware(), function (req,res,next) {
     if(req.user.se==req.body._csrf){
-        console.log(req.body.amount+" NIS to "+req.body.dest);
+        console.log(req.body.amount1+" NIS to "+req.body.dest1);
         //console.log("token: "+req.body._csrf);
         res.render('bank')
     }
     else {
-        redirect('/')
+        res.redirect('/')
     }
 });
 
