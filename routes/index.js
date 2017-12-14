@@ -8,8 +8,14 @@ var user={
     user: 'Alice',
     password: 1321
 };
-router.get('/', function(req, res, next) {
 
+var token=Tokens();
+var secret = token.secretSync();
+var csrfToken = token.create(secret);
+var user_token={};
+user_token[user.user]=csrfToken;
+
+router.get('/', function(req, res, next) {
   res.render('login', { title: 'Registration' });
 
 });
@@ -18,10 +24,6 @@ router.post('/login', function (req, res, next) {
     if((req.body.userName==user.user)&&(req.body.password2==user.password)){
         req.login(user, function (err) {
             if(req.body.btn=='SafeTransfer'){
-                var token=Tokens();
-                var secret = token.secretSync();
-                var csrfToken = token.create(secret);
-                user['token']=csrfToken;
                 res.render('Secure',{csrfToken: csrfToken});
             }else{
                 res.render('bank');
@@ -55,11 +57,12 @@ router.post('/transfer', authenticationMiddleware(),function (req,res,next) {
 });
 // transfer
 router.post('/tokenTransfer',authenticationMiddleware(), function (req,res,next) {
-    if(req.user.token==req.body._csrf){
+    if(user_token[req.user.user]==req.body._csrf){
         console.log('Secure Transfer of '+req.body.amount+"₪ to "+req.body.dest);
         res.render('Secure',{csrfToken: req.user.token})
     }
     else {
+        console.log('Someone try to steal your money');
         res.redirect('/')
     }
 });
