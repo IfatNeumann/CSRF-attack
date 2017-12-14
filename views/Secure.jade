@@ -2,6 +2,7 @@ extends layout
 
 block content
     p with token
+    div(class='body')
         form(method="POST" name='contactForm' action="/tokenTransfer")
             input(type="hidden" name="_csrf" value="#{csrfToken}")
             div
@@ -12,3 +13,5 @@ block content
                 input(type='text', name='dest' )
             div
                 input(type='submit', value='secure')
+    br
+    a(class='logout' href='/logout') logout

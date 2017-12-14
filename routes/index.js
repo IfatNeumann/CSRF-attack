@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var Tokens = require('csrf')
+var Tokens = require('csrf');
 /* GET home page. */
 var user={
     id: 1,
-    user: 'Noa',
+    user: 'Alice',
     password: 1321
 };
 router.get('/', function(req, res, next) {
@@ -38,22 +38,25 @@ router.get('/register',function (req,res,next) {
 })
 
 
-
+router.get('/logout', function(req, res){
+        req.logout();
+        res.redirect('/');
+    });
 
 // bank
 router.get('/bank',authenticationMiddleware(), function (req, res, next) {
-    res.render('bank');
+    res.render('bank',{title: req.username});
 });
 
 // transfer
 router.post('/transfer', authenticationMiddleware(),function (req,res,next) {
-    console.log(req.body.amount+" NIS to "+req.body.dest);
+    console.log('Transfer of '+req.body.amount+"₪ to "+req.body.dest);
     res.render('bank')
 });
 // transfer
 router.post('/tokenTransfer',authenticationMiddleware(), function (req,res,next) {
     if(req.user.token==req.body._csrf){
-        console.log('Secure Transfer of '+req.body.amount+" NIS to "+req.body.dest);
+        console.log('Secure Transfer of '+req.body.amount+"₪ to "+req.body.dest);
         res.render('Secure',{csrfToken: req.user.token})
     }
     else {
