@@ -14,17 +14,7 @@ block content
         .form-group
             button.btn.btn-primary(type='submit') Submit
 
-    p with token
-    form(method="POST" name='contactForm' action="/tokenTransfer")
-        input(type="hidden" name="_csrf" value="#{csrfToken}")
-        div
-           label amount
-           input(type='text', name='amount1')
-        div
-           label to
-           input(type='text', name='dest1' )
-        div
-           input(type='submit', value='Update Profile')
+
 
 
 
