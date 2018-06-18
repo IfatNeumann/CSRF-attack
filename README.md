@@ -44,4 +44,4 @@ data:{'dest':'bob','amount':'600'},xhrFields:{ withCredentials: true},success:fu
 
 ## Acknowledgments
 
-* Bar-Ilan University
+* The BIU Center for Research in Applied Cryptography and Cyber Security in Bar-Ilan University
